@@ -1,0 +1,25 @@
+# Node.js
+node_modules/
+dist/
+
+# Environment variables
+.env
+
+# Logs
+logs/
+*.log
+
+# Temporary files
+*.tmp
+*.temp
+
+# Video files
+*.mp4
+*.mov
+*.avi
+*.mkv
+
+# Generated documents
+*.pdf
+*.docx
+*.xlsx
