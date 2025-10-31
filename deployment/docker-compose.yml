@@ -1,0 +1,43 @@
+version: '3.8'
+
+services:
+  rpa-analysis-mcp:
+    build:
+      context: ..
+      dockerfile: Dockerfile
+    container_name: rpa-analysis-mcp-dev
+    ports:
+      - "3000:3000"
+    environment:
+      - NODE_ENV=development
+      - LOG_LEVEL=debug
+      - AZURE_OPENAI_ENDPOINT=${AZURE_OPENAI_ENDPOINT}
+      - AZURE_OPENAI_API_KEY=${AZURE_OPENAI_API_KEY}
+      - AZURE_OPENAI_DEPLOYMENT_NAME=${AZURE_OPENAI_DEPLOYMENT_NAME}
+    volumes:
+      - ../output:/app/output
+      - ../temp:/app/temp
+      - ../logs:/app/logs
+      - ../test-videos:/app/test-videos
+    restart: unless-stopped
+    networks:
+      - rpa-network
+
+  # Optional: Redis per caching (se necessario in futuro)
+  redis:
+    image: redis:7-alpine
+    container_name: rpa-redis
+    ports:
+      - "6379:6379"
+    volumes:
+      - redis_data:/data
+    networks:
+      - rpa-network
+    restart: unless-stopped
+
+volumes:
+  redis_data:
+
+networks:
+  rpa-network:
+    driver: bridge
